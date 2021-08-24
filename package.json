@@ -3,7 +3,8 @@
 	"version": "1.1.0",
 	"description": "Allows for creating diagrams from JSON files",
 	"license": "MIT",
-	"repository": "toothlessjs/diagram-drawer",
+	"repository": "mrmijagi/diagram-drawer",
+	"homepage": "https://github.com/mrmijagi/diagram-drawer",
 	"main": "index.js",
 	"keywords": [
 		"paperjs",
