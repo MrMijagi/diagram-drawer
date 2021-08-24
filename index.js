@@ -197,10 +197,10 @@ function copy_attributes(from, to) {
   }
 }
 
-function check_if_initialized(element, name) {
-	if (!element.initialized) {
+function check_if_initialized(elements, name) {
+	if (!elements[name].initialized) {
 		console.log("initializing", name);
-		element.init();
+		elements[name].init(elements);
 	}
 }
 
@@ -240,7 +240,7 @@ class Element {
         console.log("   this 'copy' doesn't exist");
       } else {
         // init element if it wasn't initialized yet
-		check_if_initialized(elements[copy], copy);
+		    check_if_initialized(elements, copy);
         copy_attributes(elements[copy], this);
       }
     }
@@ -256,7 +256,7 @@ class Element {
         console.log("   this 'position' doesn't exist");
       } else {
         // init element if it wasn't initialized yet
-		check_if_initialized(elements[copy], copy);
+		    check_if_initialized(elements, copy);
       }
     }
 
