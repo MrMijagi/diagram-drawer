@@ -225,13 +225,15 @@ class Element {
   init(elements) {
     let copy = null;
 
-    // check if 'looks' attributes should be copied
+    // check if appearance attributes should be copied
     if ("copy" in this.dict) {
       copy = this.dict["copy"];
 
       if (!(copy in elements)) {
         console.log("   this 'copy' doesn't exist");
       } else {
+        // init element if it wasn't initialized yet
+        if (!elements[copy].initialized) elements[copy].init();
         copy_attributes(elements[copy], this);
       }
     }
@@ -243,7 +245,12 @@ class Element {
       position = this.dict["position"];
 
       // check if position is pointing to existing key
-      if (!(position in elements)) console.log("   this 'position' doesn't exist");
+      if (!(position in elements)) {
+        console.log("   this 'position' doesn't exist");
+      } else {
+        // init element if it wasn't initialized yet
+        if (!elements[copy].initialized) elements[copy].init();
+      }
     }
 
     // calculate position depending if 'position' attribute was defined
