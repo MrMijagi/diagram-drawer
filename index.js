@@ -230,6 +230,21 @@ class Element {
   }
 
   init(elements) {
+    let copy = null;
+
+    // check if appearance attributes should be copied
+    if ("copy" in this.dict) {
+      copy = this.dict["copy"];
+
+      if (!(copy in elements)) {
+        console.log("   this 'copy' doesn't exist");
+      } else {
+        // init element if it wasn't initialized yet
+        check_if_initialized(elements, copy);
+        copy_attributes(elements[copy], this);
+      }
+    }
+
     // save the rest of attributes
     for (let shape_key of shape_keys) {
       if (shape_key in this.dict) {
@@ -247,21 +262,6 @@ class Element {
     if (this.shape == "text") {
       this.width = this.text_size * this.text.length * 0.6; // 0.6 is specific to 'Courier New' font (its important that this is monospaced font)
       this.height = this.text_size * 1.2;
-    }
-
-    let copy = null;
-
-    // check if appearance attributes should be copied
-    if ("copy" in this.dict) {
-      copy = this.dict["copy"];
-
-      if (!(copy in elements)) {
-        console.log("   this 'copy' doesn't exist");
-      } else {
-        // init element if it wasn't initialized yet
-        check_if_initialized(elements, copy);
-        copy_attributes(elements[copy], this);
-      }
     }
 
     let position = null;
