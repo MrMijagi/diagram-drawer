@@ -230,6 +230,25 @@ class Element {
   }
 
   init(elements) {
+    // save the rest of attributes
+    for (let shape_key of shape_keys) {
+      if (shape_key in this.dict) {
+        this[shape_key] = this.dict[shape_key];
+      }
+    }
+
+    for (let text_key of text_keys) {
+      if (text_key in this.dict) {
+        this[text_key] = this.dict[text_key];
+      }
+    }
+
+    // if shape "text", update width and height to text bounds
+    if (this.shape == "text") {
+      this.width = this.text_size * this.text.length * 0.6; // 0.6 is specific to 'Courier New' font (its important that this is monospaced font)
+      this.height = this.text_size * 1.2;
+    }
+
     let copy = null;
 
     // check if appearance attributes should be copied
@@ -240,7 +259,7 @@ class Element {
         console.log("   this 'copy' doesn't exist");
       } else {
         // init element if it wasn't initialized yet
-		    check_if_initialized(elements, copy);
+        check_if_initialized(elements, copy);
         copy_attributes(elements[copy], this);
       }
     }
@@ -256,7 +275,7 @@ class Element {
         console.log("   this 'position' doesn't exist");
       } else {
         // init element if it wasn't initialized yet
-		    check_if_initialized(elements, copy);
+        check_if_initialized(elements, copy);
       }
     }
 
@@ -279,38 +298,19 @@ class Element {
         switch (this.dict["align"]) {
           case "top":
             console.log(elements[position].height);
-            this.y_pos -= elements[position].height;
+            this.y_pos -= (elements[position].height / 2) + (this.height / 2);
             break;
           case "bottom":
-            this.y_pos += elements[position].height;
+            this.y_pos += (elements[position].height / 2) + (this.height / 2);
             break;
           case "left":
-            this.x_pos -= elements[position].width;
+            this.x_pos -= (elements[position].width / 2) + (this.width / 2);
             break;
           case "right":
-            this.x_pos += elements[position].width;
+            this.x_pos += (elements[position].width / 2) + (this.width / 2);
             break;
         }
       }
-    }
-
-    // save the rest of attributes
-    for (let shape_key of shape_keys) {
-      if (shape_key in this.dict) {
-        this[shape_key] = this.dict[shape_key];
-      }
-    }
-
-    for (let text_key of text_keys) {
-      if (text_key in this.dict) {
-        this[text_key] = this.dict[text_key];
-      }
-    }
-
-    // if shape "text", update width and height to text bounds
-    if (this.shape == "text") {
-      this.width = this.text_size * this.text.length * 0.6; // 0.6 is specific to 'Courier New' font (its important that this is monospaced font)
-      this.height = this.text_size * 1.2;
     }
 
     // initialization is over, update the variable
