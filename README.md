@@ -13,15 +13,17 @@ $ npm install @toothlessjs/diagram-drawer
 
 To render a diagram create StructureDrawer object, initialize it with canvas that diagram will be drawn on. Next, call `init(dictionary)` to initialize elements and connections inside it. Then render them on canvas using `draw()`. You also need to import paper.js script under `paper` variable so that StructureDrawer can use it.
 
+[Here](https://github.com/MrMijagi/algorithm-drawings) you can see example how to use it in practice.
+
 # Dictionary structure
 
 Dictionary used in `init()` function must contain specific keys and their values:
 
-* x_size - sets canvas width to this value
-* y_size - sets canvas height to this value
-* background_color - fills canvas with this color (string with #rgb notation i.e. "#00ff77"). If string is empty canvas won't be filled
-* elements - dictionary that contains all points to be rendered. Each element inside dictionary is defined by another dictionary and the key functions as ID of the element
-* connections - list of dictionaries that specify which points (elements) should be connected to each other
+* `x_size` - sets canvas width to this value
+* `y_size` - sets canvas height to this value
+* `background_color` - fills canvas with this color (string with #rgb notation i.e. "#00ff77"). If string is empty canvas won't be filled
+* `elements` - dictionary that contains all points to be rendered. Each element inside dictionary is defined by another dictionary and the key functions as ID of the element
+* `connections` - list of dictionaries that specify which points (elements) should be connected to each other
 
 # Elements attributes
 
@@ -84,8 +86,8 @@ Results:
 
 The following attributes are used to specify element position:
 
-* `x` - absolute x position on canvas (if position attribute is defined it acts more like an offset)
-* `y` - absolute y position on canvas (if position attribute is defined it acts more like an offset)
+* `x` - absolute x position on canvas (if `position` attribute is defined it acts more like an offset)
+* `y` - absolute y position on canvas (if `position` attribute is defined it acts more like an offset)
 * `position` - ID of other element. If element with specified ID exists, currently initialized element takes `x` and `y` values from it. If `x` and `y` attributes are also defined, they are added to copied position
 * `align` - string with four possible values: `top`, `bottom`, `left` and `right`. If `position` attribute is defined, current element will be put next to element pointed by it
 
@@ -119,14 +121,14 @@ After StructureDrawer initializes all the elements, it goes to list of connectio
 
 * `text` - string - text that appears on connection
 * `text_color` - string in #rgb notation. If empty text is transparent (default)
-* `text_size` - number. 10 by default
+* `text_size` - number, 10 by default
 * `text_offset` - number in range from 0 to 1. Defines text placement relative to the length of connection. 0.5 by default (center)
 
 | `text_offset: 0.5` | `text_offset: 0.2` |
 |--------------------|--------------------|
 | ![image (29)](https://user-images.githubusercontent.com/45121219/132249949-658e617e-34b1-423e-ae3e-e00e1203fb9f.png) | ![image (30)](https://user-images.githubusercontent.com/45121219/132249965-9679a1a6-2825-455e-8703-38e26cb35fcc.png) |
 
-* `text_height` - number, distance between text and direction (10 by default)
+* `text_height` - number, distance between text and connection (10 by default)
 
 | `text_height: 0`   | `text_height: 20`  |
 |--------------------|--------------------|
@@ -140,7 +142,7 @@ After StructureDrawer initializes all the elements, it goes to list of connectio
 | `end_arrow: false`  | ![image (33)](https://user-images.githubusercontent.com/45121219/132250174-42487b22-e084-408b-b0c1-3d23b8e94d8b.png) | ![image (34)](https://user-images.githubusercontent.com/45121219/132250216-f121488e-7088-46c8-abf9-d31697bc783f.png) |
 | `end_arrow: true`   | ![image (35)](https://user-images.githubusercontent.com/45121219/132250235-80df60bb-466c-4995-a95b-4bcda8cd297d.png) | ![image (36)](https://user-images.githubusercontent.com/45121219/132250250-902b67b3-a2d8-4a7d-ba6a-51531ae4b4f9.png) |
 
-* `arrow_width` - number, defines the length of the back od the arrows (10 by default)
+* `arrow_width` - number, defines the length of the back of the arrows (10 by default)
 * `arrow_offset` - number, defines how long arrows are (10 by default)
 
 |                     | `arrow_width: 10`   | `arrow_width: 20`     |
