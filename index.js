@@ -275,7 +275,7 @@ class Element {
         console.log("   this 'position' doesn't exist");
       } else {
         // init element if it wasn't initialized yet
-        check_if_initialized(elements, copy);
+        check_if_initialized(elements, position);
       }
     }
 
