@@ -11,7 +11,18 @@ $ npm install @toothlessjs/diagram-drawer
 
 # Usage
 
-To render a diagram create StructureDrawer object, initialize it with canvas that diagram will be drawn on. Next, call `init(dictionary)` to initialize elements and connections inside it. Then render them on canvas using `draw()`. You also need to import paper.js script under `paper` variable so that StructureDrawer can use it.
+To render a diagram create StructureDrawer object, initialize it with canvas that diagram will be drawn on. Next, call `init(dictionary)` to initialize elements and connections inside it. Then render them on canvas using `draw()`. You also need to import paper.js script in html so that StructureDrawer can use it.
+
+```
+<script type="text/javascript" src="paper.js"></script>
+<script>
+  var canvas = document.getElementById("myCanvas");
+  var dict = {...};
+  structureDrawer = new StructureDrawer(canvas);
+  structureDrawer.init(dict);
+  structureDrawer.draw();
+</script>
+```
 
 [Here](https://github.com/MrMijagi/algorithm-drawings) you can see example how to use it in practice.
 
