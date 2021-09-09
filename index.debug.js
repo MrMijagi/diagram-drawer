@@ -86,12 +86,24 @@ class Connection {
 
   init(elements) {
     // find start and end elements
-    if ("from" in this.dict) {
-      this.from = elements[this.dict["from"]];
+    if (!("from" in this.dict)) {
+      console.log("'from' not defined");
+    } else {
+      if (!(this.dict["from"] in elements)) {
+        console.log("element pointed by 'from' key does not exist");
+      } else {
+        this.from = elements[this.dict["from"]];
+      }
     }
 
-    if ("to" in this.dict) {
-      this.to = elements[this.dict["to"]];
+    if (!("to" in this.dict)) {
+      console.log("'to' not defined");
+    } else {
+      if (!(this.dict["to"] in elements)) {
+        console.log("element pointed by 'to' key does not exist");
+      } else {
+        this.to = elements[this.dict["to"]];
+      }
     }
 
     // load the segments into array
@@ -187,6 +199,7 @@ function copy_attributes(from, to) {
 
 function check_if_initialized(elements, name) {
 	if (!elements[name].initialized) {
+		console.log("initializing", name);
 		elements[name].init(elements);
 	}
 }
@@ -223,9 +236,13 @@ class Element {
     if ("copy" in this.dict) {
       copy = this.dict["copy"];
 
-      // init element if it wasn't initialized yet
-      check_if_initialized(elements, copy);
-      copy_attributes(elements[copy], this);
+      if (!(copy in elements)) {
+        console.log("   this 'copy' doesn't exist");
+      } else {
+        // init element if it wasn't initialized yet
+        check_if_initialized(elements, copy);
+        copy_attributes(elements[copy], this);
+      }
     }
 
     // save the rest of attributes
@@ -253,15 +270,24 @@ class Element {
     if ("position" in this.dict) {
       position = this.dict["position"];
 
-      // init element if it wasn't initialized yet
-      check_if_initialized(elements, position);
+      // check if position is pointing to existing key
+      if (!(position in elements)) {
+        console.log("   this 'position' doesn't exist");
+      } else {
+        // init element if it wasn't initialized yet
+        check_if_initialized(elements, position);
+      }
     }
 
     // calculate position depending if 'position' attribute was defined
     if (!position) {
       // absolute position - both x and y are required
-      this.x_pos = this.dict["x"];
-      this.y_pos = this.dict["y"];
+      if (!("x" in this.dict && "y" in this.dict)) {
+        console.log("   X or Y not defined");
+      } else {
+        this.x_pos = this.dict["x"];
+        this.y_pos = this.dict["y"];
+      }
     } else {
       // relative position - check if x or y are defined
       this.x_pos = elements[position].x_pos + (this.dict["x"] ? this.dict["x"] : 0);
@@ -271,6 +297,7 @@ class Element {
       if ("align" in this.dict) {
         switch (this.dict["align"]) {
           case "top":
+            console.log(elements[position].height);
             this.y_pos -= (elements[position].height / 2) + (this.height / 2);
             break;
           case "bottom":
@@ -332,6 +359,8 @@ class StructureDrawer {
   }
 
   init(dict) {
+    console.log("Initializing StructureDrawer");
+
     const attributes = [
       "background",
       "x_size",
@@ -339,7 +368,11 @@ class StructureDrawer {
     ];
 
     for (let attribute of attributes) {
-      this[attribute] = dict[attribute];
+      if (!(attribute in dict)) {
+        console.log("   " + attribute + " not defined");
+      } else {
+        this[attribute] = dict[attribute];
+      }
     }
 
     this.elements = {};
@@ -349,6 +382,8 @@ class StructureDrawer {
       for (let key in dict["elements"]) {
         this.elements[key] = new Element(dict["elements"][key]);
       }
+    } else {
+      console.log("   no elements found");
     }
 
     this.connections = [];
@@ -358,11 +393,14 @@ class StructureDrawer {
       for (let connection of dict["connections"]) {
         this.connections.push(new Connection(connection));
       }
+    } else {
+      console.log("   no connections found");
     }
 
     // initialize all elements
     for (let element_key in this.elements) {
       if (!this.elements[element_key].initialized) {
+        console.log("initializing", element_key);
         this.elements[element_key].init(this.elements);
       }
     }
@@ -378,6 +416,10 @@ class StructureDrawer {
   }
 
   draw() {
+    if (!this.elements) {
+      console.log("init() wasn't called");
+    }
+
     // remove active elements
     paper.project.activeLayer.removeChildren();
 
